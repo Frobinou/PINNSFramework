@@ -3,16 +3,16 @@ from pathlib import Path
 cwd = str(Path.cwd())
 sys.path.append(cwd)
 
-from src.trainer import Trainer
-from pathlib import Path
+from src.trainer_runner import Trainer
 from src.data_models import ParametersTraining, ODESpecifications, AvailablesODE, AvailablesAIModel
 
 case = AvailablesODE.CFAST
 
+
 if case == AvailablesODE.LOTKA_VOLTERA:
     from src.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
     trainer = Trainer(
-        parameters_training=ParametersTraining(l_r=1e-3, epochs=4000),
+        parameters_training=ParametersTraining(l_r=1e-3, epochs=200),
         ode_specifications=ODESpecifications(ode_name=AvailablesODE.LOTKA_VOLTERA,
                                             initial_conditions=[10.,10.],
                                             grid_size=800,

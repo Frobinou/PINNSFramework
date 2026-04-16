@@ -4,6 +4,7 @@ import numpy as np
 from pydantic import BaseModel
 
 from src.ode_repository.ode_base import BaseODE
+from src.odes.visualizers.base_visualizer import VisualizationMixin
 import matplotlib.pyplot as plt
 from io import BytesIO
 
@@ -14,7 +15,7 @@ class ParamsLotkaVoltera(BaseModel):
     delta: float = 1.
     gamma: float = 2.
 
-class LotkaVoltera(BaseODE):
+class LotkaVoltera(BaseODE, VisualizationMixin):
     def __init__(self, params: ParamsLotkaVoltera):
         self.name = "Lotka Volterra"
         self.params = params
@@ -55,14 +56,7 @@ class LotkaVoltera(BaseODE):
         ax.set_xlabel("t")
         ax.set_ylabel("Population")
 
-        buf = BytesIO()
-        fig.savefig(buf, format='png')
-        buf.seek(0)
-
-        img = torch.tensor(np.array(plt.imread(buf))).permute(2, 0, 1)
-
-        plt.close(fig)
-        return img
+        return self.fig_to_tensor(fig)
        
 
     # ---------- Simple visualization ----------
@@ -76,11 +70,4 @@ class LotkaVoltera(BaseODE):
         ax.set_xlabel("Proies")
         ax.set_ylabel("Prédateurs")
 
-        buf = BytesIO()
-        fig.savefig(buf, format='png')
-        buf.seek(0)
-
-        img = torch.tensor(np.array(plt.imread(buf))).permute(2, 0, 1)
-
-        plt.close(fig)
-        return img
+        return self.fig_to_tensor(fig)

@@ -1,6 +1,7 @@
 import torch 
 
 from src.ode_repository.ode_base import BaseODE
+from src.odes.visualizers.base_visualizer import VisualizationMixin
 from src.data_models import AvailablesODE
 
 from pydantic import BaseModel
@@ -38,17 +39,17 @@ class ODECFAST(BaseODE):
 
         # Compute law of perfect gaz m_i = M_i * P * V_i / (R * T_i)
         M = 29. # Hypothesis : only air
-        m_l = M * x[:,0] * (self.params.total_volume - x[:,3]) / (self.params.R * x[:, 2])
-        m_u = M * x[:,0] * (x[:,3]) / (self.params.R * x[:, 1])
+        m_l = M * x[0] * (self.params.total_volume - x[3]) / (self.params.R * x[2])
+        m_u = M * x[0] * (x[3]) / (self.params.R * x[1])
 
         m_dot_l, m_dot_u = self.compute_source_terms_mass_flux()
         cst_u = self.params.cp * m_u
-        dT_u = (1./cst_u) * (q_dot_u - self.params.cp * m_dot_u * x[:, 1] + x[:, 3] * dp)    # upper temperature
+        dT_u = (1./cst_u) * (q_dot_u - self.params.cp * m_dot_u * x[1] + x[3] * dp)    # upper temperature
         
         cst_l = self.params.cp * m_l
-        V_l = self.params.total_volume - x[:,3]
-        dT_l =  (1./cst_l) * (q_dot_l - self.params.cp * m_dot_l * x[:,2] + V_l * dp)  # lower temperature
-        dV_u = (1/ (x[:,0] * self.params.gamma))* ((self.params.gamma - 1)* (q_dot_u) - x[:,3] * dp)   # upper volume
+        V_l = self.params.total_volume - x[3]
+        dT_l =  (1./cst_l) * (q_dot_l - self.params.cp * m_dot_l * x[2] + V_l * dp)  # lower temperature
+        dV_u = (1/ (x[0] * self.params.gamma))* ((self.params.gamma - 1)* (q_dot_u) - x[3] * dp)   # upper volume
 
         return dp, dT_u, dT_l, dV_u
 
@@ -56,9 +57,9 @@ class ODECFAST(BaseODE):
         """
             Compute q_dot_l, q_dot_u
         """
-        q_dot_l = -self.params.cp * self.params.combustion_speed * self.params.combustion_heat * self.params.Q * x[:,2] # power
+        q_dot_l = -self.params.cp * self.params.combustion_speed * self.params.combustion_heat * self.params.Q * x[2] # power
         q_dot_u = self.params.combustion_speed * self.params.combustion_heat + self.params.cp * self.params.combustion_speed * self.params.outside_temperature
-        q_dot_u += self.params.cp * self.params.combustion_speed * self.params.combustion_heat * self.params.Q * x[:,2]
+        q_dot_u += self.params.cp * self.params.combustion_speed * self.params.combustion_heat * self.params.Q * x[2]
 
         return q_dot_l, q_dot_u
 
@@ -71,18 +72,7 @@ class ODECFAST(BaseODE):
         return m_dot_l, m_dot_u
 
 
-    # ---------- Torch version ----------
-    def torch_ode(self, x: torch.Tensor) -> torch.Tensor:
-        dp, dT_u, dT_l, dV_u = self._dynamics(x)
-        return torch.stack((dp, dT_u, dT_l, dV_u), dim=1)
-
-    # ---------- Numpy / SciPy version ----------
-
-    def _dynamics_numpy(self, t, x):
-        x = x.T
-        return self._dynamics(x)
-
-    
+    # ---------- Plot ----------
     def log_trajectory_plot(self, t_true,y_true, y_pred):
         fig, ax = plt.subplots()
 

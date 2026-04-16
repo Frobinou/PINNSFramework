@@ -18,23 +18,26 @@ class BaseODE:
         raise NotImplementedError
 
     # ---------- Torch version ----------
-    def torch_ode(self,x: torch.Tensor, params: BaseModel) -> torch.Tensor:
-        raise NotImplementedError
+    def torch_ode(self, x: torch.Tensor) -> torch.Tensor:
+        dx = self._dynamics(x.mT)
+        return torch.stack(dx, dim=1)
 
     # ---------- Numpy / SciPy version ----------
-    def numpy_ode(self,t, x, params: BaseModel):
-        raise NotImplementedError
 
+    def _dynamics_numpy(self, t, x):
+        return self._dynamics(x,t=t)
     # ---------- Validation ----------
     
-    def validation(self, t_span: tuple, x0: list):
-        t_eval = np.linspace(*t_span, 200)
+    def validation(self, t_span: tuple, x0: list, nb_points:int):
+        t_eval = np.linspace(*t_span, nb_points)
 
         sol = solve_ivp(
             fun=self._dynamics_numpy,
             t_span=t_span,
             y0=x0,
-            t_eval=t_eval
+            t_eval=t_eval,
+            #method="Radau",
+            #max_step=0.01
         )
 
         return sol

@@ -4,13 +4,12 @@ cwd = str(Path.cwd())
 sys.path.append(cwd)
 
 import json
-from pathlib import Path
 import torch
 import matplotlib.pyplot as plt
 
 from pydantic import BaseModel
 from src.data_models import ODESpecifications, AvailablesODE, AvailablesAIModel
-from src.trainer import ODE_REPOSITORY, AIMODEL_REPOSITORY
+from src.trainer_runner import ODE_REPOSITORY, AIMODEL_REPOSITORY
 from src.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
 
 class InferenceRunner:
