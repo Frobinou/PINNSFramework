@@ -2,6 +2,8 @@ from abc import ABC
 import torch
 from pydantic import BaseModel
 
+from scipy.integrate import solve_ivp
+import numpy as np 
 
 class BaseODE:
     def __init__(self, params: BaseModel):
@@ -12,20 +14,27 @@ class BaseODE:
         self.params = new_params
 
     # ---------- Core dynamics (factorisée) ----------
-    @staticmethod
-    def _dynamics(t, x, params):
+    def _dynamics(self,t, x, params):
         raise NotImplementedError
 
     # ---------- Torch version ----------
-    @staticmethod
-    def torch_ode(x: torch.Tensor, params: BaseModel) -> torch.Tensor:
+    def torch_ode(self,x: torch.Tensor, params: BaseModel) -> torch.Tensor:
         raise NotImplementedError
 
     # ---------- Numpy / SciPy version ----------
-    @staticmethod
-    def numpy_ode(t, x, params: BaseModel):
+    def numpy_ode(self,t, x, params: BaseModel):
         raise NotImplementedError
 
     # ---------- Validation ----------
-    def validation(self, t_span: tuple, x0: list, params: BaseModel):
-        raise NotImplementedError
+    
+    def validation(self, t_span: tuple, x0: list):
+        t_eval = np.linspace(*t_span, 200)
+
+        sol = solve_ivp(
+            fun=self._dynamics_numpy,
+            t_span=t_span,
+            y0=x0,
+            t_eval=t_eval
+        )
+
+        return sol

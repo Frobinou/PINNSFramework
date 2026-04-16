@@ -40,17 +40,7 @@ class LotkaVoltera(BaseODE):
         return [dx, dy]
 
     # ---------- Validation ----------
-    def validation(self, t_span: tuple, x0: list):
-        t_eval = np.linspace(*t_span, 200)
 
-        sol = solve_ivp(
-            fun=self._dynamics_numpy,
-            t_span=t_span,
-            y0=x0,
-            t_eval=t_eval
-        )
-
-        return sol
 
 
     def log_trajectory_plot(self, t_true,y_true, y_pred):

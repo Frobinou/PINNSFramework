@@ -8,10 +8,12 @@ from src.data_models import ParametersTraining, ODESpecifications, AvailablesODE
 from src.logger import setup_logger
 from model_repository.model_PINN import BasicPINN
 from ode_repository.ode_lotka_voltera import LotkaVoltera
+from ode_repository.ode_cfast import ODECFAST
 
 
 ODE_REPOSITORY = {
-    AvailablesODE.LOTKA_VOLTERA : LotkaVoltera
+    AvailablesODE.LOTKA_VOLTERA : LotkaVoltera,
+    AvailablesODE.CFAST : ODECFAST
 }
 
 AIMODEL_REPOSITORY = {
@@ -99,14 +101,17 @@ class Trainer:
         F_t = self.ode.torch_ode(y_pred)
 
         #ode_loss = torch.mean((gradient_derivative - F_t) ** 2) # f'(t) = F(f,t)
-        ode_loss_prey = torch.mean((gradient_derivative[:, 0] - F_t[:, 0]) ** 2)
-        ode_loss_pred = torch.mean((gradient_derivative[:, 1] - F_t[:, 1]) ** 2)
-        ode_loss = alpha * ode_loss_prey + (1-alpha)* ode_loss_pred 
+        all_ode_loss_dim = []
+        ode_loss = 0.
+        for i in range(self.ode_specifications.model_dimension):
+            ode_loss_dim = torch.mean((gradient_derivative[:, i] - F_t[:, 0]) ** 2)
+            ode_loss += ode_loss_dim
+            all_ode_loss_dim.append(ode_loss)
         # initial condition at t=0
         pred0 = self.model(torch.zeros(1, 1, device=self.device))
         ic_loss = torch.mean((pred0 - self.x0) ** 2)
 
-        return ode_loss + ic_loss, ode_loss, ic_loss, ode_loss_prey, ode_loss_pred
+        return ode_loss + ic_loss, ode_loss, ic_loss, all_ode_loss_dim
 
     # ---------- Training ----------
     def train(self):
@@ -115,7 +120,7 @@ class Trainer:
             self.global_step += 1
             self.optimizer.zero_grad()
 
-            loss, ode_loss, ic_loss, ode_loss_prey, ode_loss_pred = self.compute_loss()
+            loss, ode_loss, ic_loss, all_ode_loss_dim = self.compute_loss()
 
             loss.backward()
             self.optimizer.step()
@@ -125,8 +130,9 @@ class Trainer:
                 self.writer.add_scalar("Loss/train/total_loss", loss.item(), epoch)
                 self.writer.add_scalar("Loss/train/ode_loss", ode_loss.item(), epoch)
                 self.writer.add_scalar("Loss/train/ic_loss", ic_loss.item(), epoch)
-                self.writer.add_scalar("Loss/train/ode_loss_prey", ode_loss_prey.item(), epoch)
-                self.writer.add_scalar("Loss/train/ode_loss_pred", ode_loss_pred.item(), epoch)
+                for i,loss in enumerate(all_ode_loss_dim):
+                    self.writer.add_scalar(f"Loss/train/ode_loss_{i}", loss.item(), epoch)
+               
                 
                 self.evaluate(epoch=epoch)
                 
@@ -165,13 +171,16 @@ class Trainer:
     # ---------- Plot ----------
     def log_trajectory_plot(self, t_true,y_true, y_pred, global_step:int, tensorboard_path):
         img = self.ode.log_trajectory_plot(t_true=t_true, y_true=y_true, y_pred=y_pred)
-        self.writer.add_image(tensorboard_path, img, global_step)
+        if img is not None:
+            self.writer.add_image(tensorboard_path, img, global_step)
 
 
     # ---------- Simple visualization ----------
     def log_trajectory_phase_space_plot(self,y_true, y_pred, global_step:int, tensorboard_path: str):
         img = self.ode.log_trajectory_phase_space_plot(y_true=y_true, y_pred=y_pred)
-        self.writer.add_image(tensorboard_path, img, global_step)
+
+        if img is not None:
+            self.writer.add_image(tensorboard_path, img, global_step)
         
 
     # ---------- Run all ----------
