@@ -3,7 +3,7 @@ from scipy.integrate import solve_ivp
 import numpy as np 
 from pydantic import BaseModel
 
-from src.ode_repository.ode_base import BaseODE
+from src.odes.ode_repository.ode_base import BaseODE
 from src.odes.visualizers.base_visualizer import VisualizationMixin
 import matplotlib.pyplot as plt
 from io import BytesIO
@@ -41,12 +41,8 @@ class LotkaVoltera(BaseODE, VisualizationMixin):
         return [dx, dy]
 
     # ---------- Validation ----------
-
-
-
     def log_trajectory_plot(self, t_true,y_true, y_pred):
         fig, ax = plt.subplots()
-
         ax.plot(t_true, y_true[:,0], label="Proies (SciPy)")
         ax.plot(t_true, y_true[:,1], label="Prédateurs (SciPy)")
         ax.plot(t_true, y_pred[:, 0], '--', label="Proies (NN)")
@@ -62,7 +58,6 @@ class LotkaVoltera(BaseODE, VisualizationMixin):
     # ---------- Simple visualization ----------
     def log_trajectory_phase_space_plot(self,y_true, y_pred):
         fig, ax = plt.subplots()
-
         ax.plot(y_true[:, 0], y_true[:, 1], label="Proies / Prédateurs (SciPy)")
         ax.plot(y_pred[:, 0], y_pred[:, 1], '--', label="Proies / Prédateurs (NN)")
 

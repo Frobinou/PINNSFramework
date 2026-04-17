@@ -1,6 +1,6 @@
 import torch 
 
-from src.ode_repository.ode_base import BaseODE
+from src.odes.ode_repository.ode_base import BaseODE
 from src.odes.visualizers.base_visualizer import VisualizationMixin
 from src.data_models import AvailablesODE
 

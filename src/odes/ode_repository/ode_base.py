@@ -28,16 +28,14 @@ class BaseODE:
         return self._dynamics(x,t=t)
     # ---------- Validation ----------
     
-    def validation(self, t_span: tuple, x0: list, nb_points:int):
+    def simulate(self, t_span: tuple, x0: list, nb_points:int, method:str="RK45", max_step:float=None):
         t_eval = np.linspace(*t_span, nb_points)
 
         sol = solve_ivp(
             fun=self._dynamics_numpy,
             t_span=t_span,
             y0=x0,
-            t_eval=t_eval,
-            #method="Radau",
-            #max_step=0.01
+            t_eval=t_eval
         )
 
         return sol

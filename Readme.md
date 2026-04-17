@@ -81,6 +81,68 @@ If you prefer a manual install without `pip install -e .`:
 python -m pip install matplotlib numpy scipy pydantic structlog tensorboard torch torchvision torchaudio
 ```
 
+4. See Results 
+
+Use tensorboard 
+
+```powershell
+tensorboard --logdir=runs\Lotka-Voltera
+```
+
+## CLI Usage
+
+The `src/cli.py` file provides a command-line interface for:
+
+- `train`: start a training run with `Trainer`
+- `infer`: load a saved model and run inference
+- `generate`: generate simulation data for an ODE
+
+### Examples
+
+Lotka-Volterra training:
+
+```powershell
+python src/cli/app.py train  ` 
+  --ode lotka_volterra  `
+  --model-dimension 2  `
+  --initial-conditions 10 10  `
+  --ode-params alpha=0.5 beta=1 gamma=1 delta=1
+```
+
+CFAST training:
+
+```powershell
+python src/cli.py train --ode CFAST --initial-conditions 101325 293 293 0 --model-dimension 4 --grid-size 800 --t-span 0 1 \
+  --ode-params total_volume=250
+```
+
+Inference:
+
+```powershell
+python src/cli.py train `
+  --ode CFAST `
+  --initial-conditions 101325 293 293 0 `
+  --model-dimension 4 `
+  --grid-size 800 `
+  --t-span 0 1 `
+  --ode-params total_volume=250 `
+```
+
+Data generation:
+
+```powershell
+python src/cli.py generate --ode Lotka-Voltera --output-file data/lotka_volterra.parquet --n-sims 50 --n-steps 200
+```
+
+### ODE parameters
+
+ODE parameters are provided as `key=value` pairs via `--ode-params`.
+
+Examples:
+
+- Lotka-Volterra: `alpha=0.6666667 beta=1.3333333 gamma=1 delta=1`
+- CFAST: `total_volume=250`
+
 ## Training
 
 The main training entry point is `src/run.py`:

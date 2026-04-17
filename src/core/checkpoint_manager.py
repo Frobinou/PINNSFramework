@@ -1,7 +1,10 @@
 import json
+from pydantic.v1 import BaseModel
 import torch
 from pathlib import Path
 from typing import List, Tuple
+
+from src.data_models import ODEExperiment, TrainingConfig
 
 
 class CheckpointManager:
@@ -50,13 +53,13 @@ class CheckpointManager:
 
         return global_step
 
-    def save_config(self, experiment_folder: Path, model_name: str, parameters_training, ode_specifications, ode_parameters, optimizer):
+    def save_config(self, experiment_folder: Path, 
+                            ode_experiment_config: ODEExperiment, 
+                            training_config: TrainingConfig):
+        
         config = {
-            "model_name": model_name,
-            "parameters_training": parameters_training.model_dump(mode="json"),
-            "ode_specifications": ode_specifications.model_dump(mode="json"),
-            "ode_parameters": ode_parameters.model_dump(),
-            "optimizer": optimizer.__class__.__name__,
+            "parameters_training": training_config.model_dump(mode="json"),
+            "ode_experiment_config": ode_experiment_config.model_dump(mode="json")
         }
 
         config_path = experiment_folder / "training_config.json"

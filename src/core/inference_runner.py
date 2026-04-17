@@ -8,26 +8,33 @@ import torch
 import matplotlib.pyplot as plt
 
 from pydantic import BaseModel
-from src.data_models import ODESpecifications, AvailablesODE, AvailablesAIModel
-from src.trainer_runner import ODE_REPOSITORY, AIMODEL_REPOSITORY
-from src.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
+from src.data_models import ODEExperiment, ODESConfig, AvailablesODE, AvailablesAIModel, TrainingConfig
+from src.core.trainer_runner import ODE_REPOSITORY, AIMODEL_REPOSITORY
+from src.odes.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
 
 class InferenceRunner:
 
     def __init__(self, experiment_dir, device=None, 
-                 ode_specifications: ODESpecifications = None, 
-                 ode_parameters: BaseModel = None, 
-                 model_name:str = ''
+                 ode_experiment_config: ODEExperiment = None, 
+                 ode_training: TrainingConfig = None
                  ):
         self.experiment_dir = Path(experiment_dir)
         self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.ode_specifications: ODESpecifications = ode_specifications
-        self.ode_parameters = ode_parameters
+        self.ode_experiment_config: ODEExperiment = ode_experiment_config
+        self.ode_training: TrainingConfig = ode_training
 
+        self._initalize_ode_environment()
+        self._initialize_training_environment()
+
+    def _initalize_ode_environment(self):
+        ode_config = self.ode_experiment_config.ode_config
+        if ode_config is not None:
+            self.ode = ODE_REPOSITORY.get(ode_config.ode_name)(params=ode_config.parameters)    
+
+    def _initialize_training_environment(self):
         # Model
-        self.ode = ODE_REPOSITORY.get(ode_specifications.ode_name)(params=ode_parameters)
-        self.model = AIMODEL_REPOSITORY.get(model_name)(output_dim=ode_specifications.model_dimension).to(self.device)
+        self.model = AIMODEL_REPOSITORY.get(self.ode_training.model_name)(output_dim=self.ode_experiment_config.model_dimension).to(self.device)
 
 
     @classmethod
@@ -40,17 +47,14 @@ class InferenceRunner:
         with open(config_path, "r") as f:
             config = json.load(f)
 
-        ode_specs = ODESpecifications(**config.get("ode_specifications"))
+        ode_expe = ODEExperiment(**config.get("ode_experiment_config"))
+        ode_training = TrainingConfig(**config.get("parameters_training"))
 
-        if ode_specs.ode_name == AvailablesODE.LOTKA_VOLTERA:
-            ode_parameters = ParamsLotkaVoltera(**config.get("ode_parameters"))
-
-        print(config.get('model_name'))
-        return cls(experiment_dir=experiment_dir,
-                   ode_specifications=ode_specs,
-                   ode_parameters = ode_parameters,
-                   model_name = AvailablesAIModel(config.get('model_name'))
-                   )
+        return cls(
+            experiment_dir=experiment_dir,
+            ode_experiment_config=ode_expe,
+            ode_training=ode_training
+        )
 
     # -------------------------
     # MODEL FACTORY
@@ -103,9 +107,9 @@ class InferenceRunner:
     # PREDICTION
     # -------------------------
     def predict(self):
-        t0, t1 = self.ode_specifications.t_span
+        t0, t1 = self.ode_experiment_config.ode_config.t_span
 
-        t = torch.linspace(t0, t1, self.ode_specifications.grid_size).view(-1, 1)
+        t = torch.linspace(t0, t1, self.ode_experiment_config.ode_config.grid_size).view(-1, 1)
         t = t.to(self.device)
 
         with torch.no_grad():
