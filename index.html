@@ -71,12 +71,86 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#odepinnsframework" class="nav-link">ODEPINNSFramework</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#features" class="nav-link">Features</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#getting-started" class="nav-link">Getting Started</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#documentation" class="nav-link">Documentation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#use-cases" class="nav-link">Use Cases</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#philosophy" class="nav-link">Philosophy</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-</div>
+<h1 id="odepinnsframework">ODEPINNSFramework</h1>
+<p><img alt="Python" src="https://img.shields.io/badge/python-3.10+-blue.svg" />
+<img alt="License" src="https://img.shields.io/badge/license-MIT-green.svg" />
+<img alt="Status" src="https://img.shields.io/badge/status-research-orange.svg" />
+<img alt="Framework" src="https://img.shields.io/badge/PINNs-ODE%20Solver-purple.svg" /></p>
+<h2 id="overview">Overview</h2>
+<p>ODEPINNSFramework is a Python framework for solving Ordinary Differential Equations (ODEs) using Physics-Informed Neural Networks (PINNs). It integrates neural networks with physical constraints to learn solutions that respect the underlying dynamics of the system.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Solve ODE systems using PINNs</li>
+<li>Combine physics-based and data-driven learning</li>
+<li>Modular and extensible architecture</li>
+<li>Built-in training, logging, and visualization tools</li>
+<li>Support for custom ODEs and neural models</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="installation">Installation</h3>
+<p>```bash id="x9kq2p"
+pip install -e .</p>
+<pre><code>
+### Example Usage
+
+```python id=&quot;m4k2sa&quot;
+from core.trainer import Trainer
+
+trainer = Trainer(
+    training_config=...,
+    ode_experiment_config=...
+)
+
+trainer.run()
+</code></pre>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li>API Reference available in the <strong>Code</strong> section</li>
+<li>Configuration-based setup for models, ODEs, and training pipelines</li>
+</ul>
+<h2 id="use-cases">Use Cases</h2>
+<ul>
+<li>Scientific computing</li>
+<li>Dynamical systems modeling</li>
+<li>Physics-informed machine learning</li>
+<li>Parameter estimation in differential systems</li>
+</ul>
+<h2 id="philosophy">Philosophy</h2>
+<p>This framework is designed to provide a clean, modular, and extensible environment for experimenting with PINNs applied to ODEs, while maintaining simplicity and research flexibility.</p></div>
             </div>
         </div>
 
@@ -137,5 +211,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-04-19 08:43:49.200826+00:00
+Build Date UTC : 2026-04-19 08:47:11.910883+00:00
 -->
