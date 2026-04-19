@@ -18,13 +18,16 @@ class CheckpointManager:
         checkpoint_path = self.save_dir / f"epoch_{epoch}_loss_{loss:.6f}.pt"
 
         # Sauvegarde
-        torch.save({
-            "epoch": epoch,
-            "model_state_dict": model.state_dict(),
-            "optimizer_state_dict": optimizer.state_dict(),
-            "loss": loss,
-            "global_step": global_step,
-        }, checkpoint_path)
+        torch.save(
+            {
+                "epoch": epoch,
+                "model_state_dict": model.state_dict(),
+                "optimizer_state_dict": optimizer.state_dict(),
+                "loss": loss,
+                "global_step": global_step,
+            },
+            checkpoint_path,
+        )
 
         # Ajout à la liste
         self.best_checkpoints.append((loss, checkpoint_path))
@@ -53,13 +56,16 @@ class CheckpointManager:
 
         return global_step
 
-    def save_config(self, experiment_folder: Path, 
-                            ode_experiment_config: ODEExperiment, 
-                            training_config: TrainingConfig):
-        
+    def save_config(
+        self,
+        experiment_folder: Path,
+        ode_experiment_config: ODEExperiment,
+        training_config: TrainingConfig,
+    ):
+
         config = {
             "parameters_training": training_config.model_dump(mode="json"),
-            "ode_experiment_config": ode_experiment_config.model_dump(mode="json")
+            "ode_experiment_config": ode_experiment_config.model_dump(mode="json"),
         }
 
         config_path = experiment_folder / "training_config.json"

@@ -9,7 +9,7 @@ class VisualizationMixin:
     def fig_to_tensor(fig):
         """Convert matplotlib figure to torch tensor for tensorboard."""
         buf = BytesIO()
-        fig.savefig(buf, format='png')
+        fig.savefig(buf, format="png")
         buf.seek(0)
         img = torch.tensor(np.array(plt.imread(buf))).permute(2, 0, 1)
         plt.close(fig)

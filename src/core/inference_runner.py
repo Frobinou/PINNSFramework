@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+
 cwd = str(Path.cwd())
 sys.path.append(cwd)
 
@@ -8,16 +9,25 @@ import torch
 import matplotlib.pyplot as plt
 
 from pydantic import BaseModel
-from src.data_models import ODEExperiment, ODESConfig, AvailablesODE, AvailablesAIModel, TrainingConfig
+from src.data_models import (
+    ODEExperiment,
+    ODESConfig,
+    AvailablesODE,
+    AvailablesAIModel,
+    TrainingConfig,
+)
 from src.core.trainer_runner import ODE_REPOSITORY, AIMODEL_REPOSITORY
 from src.odes.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
 
-class InferenceRunner:
 
-    def __init__(self, experiment_dir, device=None, 
-                 ode_experiment_config: ODEExperiment = None, 
-                 ode_training: TrainingConfig = None
-                 ):
+class InferenceRunner:
+    def __init__(
+        self,
+        experiment_dir,
+        device=None,
+        ode_experiment_config: ODEExperiment = None,
+        ode_training: TrainingConfig = None,
+    ):
         self.experiment_dir = Path(experiment_dir)
         self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -30,12 +40,13 @@ class InferenceRunner:
     def _initalize_ode_environment(self):
         ode_config = self.ode_experiment_config.ode_config
         if ode_config is not None:
-            self.ode = ODE_REPOSITORY.get(ode_config.ode_name)(params=ode_config.parameters)    
+            self.ode = ODE_REPOSITORY.get(ode_config.ode_name)(params=ode_config.parameters)
 
     def _initialize_training_environment(self):
         # Model
-        self.model = AIMODEL_REPOSITORY.get(self.ode_training.model_name)(output_dim=self.ode_experiment_config.model_dimension).to(self.device)
-
+        self.model = AIMODEL_REPOSITORY.get(self.ode_training.model_name)(
+            output_dim=self.ode_experiment_config.model_dimension
+        ).to(self.device)
 
     @classmethod
     def from_config(cls, experiment_dir, config_name="training_config.json"):
@@ -51,9 +62,7 @@ class InferenceRunner:
         ode_training = TrainingConfig(**config.get("parameters_training"))
 
         return cls(
-            experiment_dir=experiment_dir,
-            ode_experiment_config=ode_expe,
-            ode_training=ode_training
+            experiment_dir=experiment_dir, ode_experiment_config=ode_expe, ode_training=ode_training
         )
 
     # -------------------------
@@ -67,7 +76,7 @@ class InferenceRunner:
     # LOAD WEIGHTS
     # -------------------------
     def load_weights(self):
-        save_dir = self.experiment_dir / 'save'
+        save_dir = self.experiment_dir / "save"
         checkpoint_files = list(save_dir.glob("*.pt"))
 
         if not checkpoint_files:
@@ -140,6 +149,7 @@ class InferenceRunner:
             print(f"Saved plot: {save_path}")
 
         plt.show()
+
 
 if __name__ == "__main__":
     model_path = Path("runs\Lotka-Voltera\experiment_2026-04-16_15-13-10")
