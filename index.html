@@ -1,215 +1,1131 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
         <meta name="description" content="ODEPINNSFramework is a Python framework for simulating and solving Ordinary Differential Equations (ODEs) using Physics-Informed Neural Networks (PINNs). It combines data-driven learning with physical constraints, enabling models to learn solutions that respect underlying dynamical systems. The framework is designed to be modular, flexible, and suitable for both research and practical applications.">
+      
+      
+      
+      
+      
+        <link rel="next" href="code/">
+      
+      
         
-        
-        <link rel="shortcut icon" href="img/favicon.ico">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
         <title>ODEPINNSFramework</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/fontawesome.min.css" rel="stylesheet">
-        <link href="css/brands.min.css" rel="stylesheet">
-        <link href="css/solid.min.css" rel="stylesheet">
-        <link href="css/v4-font-face.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <link href="assets/_mkdocstrings.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      
+      
 
-    <body class="homepage">
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href=".">ODEPINNSFramework</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="." class="nav-link active" aria-current="page">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="code/" class="nav-link">Code</a>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                            <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="code/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="1"><a href="#odepinnsframework" class="nav-link">ODEPINNSFramework</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#features" class="nav-link">Features</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#getting-started" class="nav-link">Getting Started</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#documentation" class="nav-link">Documentation</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#use-cases" class="nav-link">Use Cases</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#philosophy" class="nav-link">Philosophy</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pinn-trainer" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
 
-<h1 id="odepinnsframework">ODEPINNSFramework</h1>
-<p><img alt="Python" src="https://img.shields.io/badge/python-3.10+-blue.svg" />
-<img alt="License" src="https://img.shields.io/badge/license-MIT-green.svg" />
-<img alt="Status" src="https://img.shields.io/badge/status-research-orange.svg" />
-<img alt="Framework" src="https://img.shields.io/badge/PINNs-ODE%20Solver-purple.svg" /></p>
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="ODEPINNSFramework" class="md-header__button md-logo" aria-label="ODEPINNSFramework" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ODEPINNSFramework
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="ODEPINNSFramework" class="md-nav__button md-logo" aria-label="ODEPINNSFramework" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ODEPINNSFramework
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trainingconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TrainingConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#odeexperiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ODEExperiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#odeconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ODEConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output directory structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorboard-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TensorBoard metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TensorBoard metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-scalars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training scalars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-scalars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation scalars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation images
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-lotka-volterra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Lotka-Volterra
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-new-ode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a new ODE
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-issues-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known issues and limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trainingconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TrainingConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#odeexperiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ODEExperiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#odeconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ODEConfig
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output directory structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorboard-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TensorBoard metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TensorBoard metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-scalars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training scalars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-scalars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation scalars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation images
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-lotka-volterra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Lotka-Volterra
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-new-ode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a new ODE
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-issues-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known issues and limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="pinn-trainer">PINN Trainer</h1>
+<p>Physics-Informed Neural Network trainer combining ODE residual loss with empirical data loss.
+Built on PyTorch with TensorBoard logging and automatic top-k checkpointing.</p>
+<hr />
 <h2 id="overview">Overview</h2>
-<p>ODEPINNSFramework is a Python framework for solving Ordinary Differential Equations (ODEs) using Physics-Informed Neural Networks (PINNs). It integrates neural networks with physical constraints to learn solutions that respect the underlying dynamics of the system.</p>
-<h2 id="features">Features</h2>
+<p>The trainer minimises a composite loss:</p>
+<div class="arithmatex">\[
+\mathcal{L} = \lambda_{\text{ode}} \cdot (\mathcal{L}_{\text{ode}} + \mathcal{L}_{\text{ic}}) + \lambda_{\text{data}} \cdot \mathcal{L}_{\text{data}}
+\]</div>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathcal{L}_{\text{ode}}\)</span></td>
+<td>Mean squared ODE residual on the collocation grid</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathcal{L}_{\text{ic}}\)</span></td>
+<td>Mean squared error on initial conditions at <span class="arithmatex">\(t=0\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathcal{L}_{\text{data}}\)</span></td>
+<td>Mean squared error on empirical observations (Parquet)</td>
+</tr>
+</tbody>
+</table>
+<p>Three training modes are supported depending on which <span class="arithmatex">\(\lambda\)</span> values are non-zero:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th><code>lambda_ode</code></th>
+<th><code>lambda_data</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Physics-only</td>
+<td>&gt; 0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Data-only</td>
+<td>0</td>
+<td>&gt; 0</td>
+</tr>
+<tr>
+<td>Hybrid PINN</td>
+<td>&gt; 0</td>
+<td>&gt; 0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="installation">Installation</h2>
+<pre><code class="language-bash">pip install -r requirements.txt
+</code></pre>
+<p><strong>Required dependencies:</strong></p>
 <ul>
-<li>Solve ODE systems using PINNs</li>
-<li>Combine physics-based and data-driven learning</li>
-<li>Modular and extensible architecture</li>
-<li>Built-in training, logging, and visualization tools</li>
-<li>Support for custom ODEs and neural models</li>
+<li><code>torch &gt;= 2.0</code></li>
+<li><code>numpy</code></li>
+<li><code>matplotlib</code></li>
+<li><code>scipy</code></li>
+<li><code>tensorboard</code></li>
+<li><code>pyarrow</code> / <code>pandas</code> (for Parquet data loading)</li>
 </ul>
-<h2 id="getting-started">Getting Started</h2>
-<h3 id="installation">Installation</h3>
-<p>```bash id="x9kq2p"
-pip install -e .</p>
-<pre><code>
-### Example Usage
+<hr />
+<h2 id="project-structure">Project structure</h2>
+<pre><code>src/
+├── core/
+│   ├── checkpoint_manager.py   # Top-k checkpoint logic
+│   ├── data_loader.py          # Parquet DataLoader builder
+│   └── models.py               # TrainingStepLog dataclass
+├── data_models.py              # TrainingConfig, DataConfig, ODEExperiment
+├── ai_model_repository.py      # Neural network registry
+├── odes/                       # ODE registry and implementations
+├── logger.py                   # Logger setup
+└── trainer.py                  # Trainer (this module)
+</code></pre>
+<hr />
+<h2 id="quick-start">Quick start</h2>
+<pre><code class="language-python">from pathlib import Path
+from src.trainer import Trainer
+from src.data_models import TrainingConfig, ODEExperiment
 
-```python id=&quot;m4k2sa&quot;
-from core.trainer import Trainer
+training_config = TrainingConfig(
+    epochs=5000,
+    l_r=1e-3,
+    log_frequency=100,
+    top_k_save_frequency=5,
+    model_name=&quot;MLP&quot;,
+)
+
+ode_experiment_config = ODEExperiment(
+    ode_config=...,         # ODE name, parameters, grid_size, t_span, lambda_ode
+    data_config=None,       # set to DataConfig(...) for hybrid mode
+    model_dimension=2,
+    initial_conditions=[1.0, 0.5],
+    input_cols=[&quot;t&quot;],
+    target_cols=[&quot;prey&quot;, &quot;predator&quot;],
+)
 
 trainer = Trainer(
-    training_config=...,
-    ode_experiment_config=...
+    training_config=training_config,
+    ode_experiment_config=ode_experiment_config,
+    output_folder_path=Path(&quot;outputs/&quot;),
 )
 
 trainer.run()
 </code></pre>
-<h2 id="documentation">Documentation</h2>
-<ul>
-<li>API Reference available in the <strong>Code</strong> section</li>
-<li>Configuration-based setup for models, ODEs, and training pipelines</li>
-</ul>
-<h2 id="use-cases">Use Cases</h2>
-<ul>
-<li>Scientific computing</li>
-<li>Dynamical systems modeling</li>
-<li>Physics-informed machine learning</li>
-<li>Parameter estimation in differential systems</li>
-</ul>
-<h2 id="philosophy">Philosophy</h2>
-<p>This framework is designed to provide a clean, modular, and extensible environment for experimenting with PINNs applied to ODEs, while maintaining simplicity and research flexibility.</p></div>
-            </div>
-        </div>
+<hr />
+<h2 id="configuration">Configuration</h2>
+<h3 id="trainingconfig"><code>TrainingConfig</code></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>epochs</code></td>
+<td><code>int</code></td>
+<td>Number of training epochs</td>
+</tr>
+<tr>
+<td><code>l_r</code></td>
+<td><code>float</code></td>
+<td>Adam learning rate</td>
+</tr>
+<tr>
+<td><code>log_frequency</code></td>
+<td><code>int</code></td>
+<td>Epoch interval between TensorBoard writes</td>
+</tr>
+<tr>
+<td><code>top_k_save_frequency</code></td>
+<td><code>int</code></td>
+<td>Maximum number of checkpoints to keep</td>
+</tr>
+<tr>
+<td><code>model_name</code></td>
+<td><code>str</code></td>
+<td>Key in <code>AIMODEL_REPOSITORY</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="odeexperiment"><code>ODEExperiment</code></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ode_config</code></td>
+<td><code>ODEConfig \| None</code></td>
+<td>ODE specification; <code>None</code> disables physics loss</td>
+</tr>
+<tr>
+<td><code>data_config</code></td>
+<td><code>DataConfig \| None</code></td>
+<td>Data specification; <code>None</code> disables data loss</td>
+</tr>
+<tr>
+<td><code>model_dimension</code></td>
+<td><code>int</code></td>
+<td>Number of ODE state variables</td>
+</tr>
+<tr>
+<td><code>initial_conditions</code></td>
+<td><code>list[float]</code></td>
+<td>Initial state vector <span class="arithmatex">\(x_0\)</span></td>
+</tr>
+<tr>
+<td><code>input_cols</code></td>
+<td><code>list[str]</code></td>
+<td>Input column names in the Parquet file</td>
+</tr>
+<tr>
+<td><code>target_cols</code></td>
+<td><code>list[str]</code></td>
+<td>Target column names — also used as variable labels in TensorBoard</td>
+</tr>
+</tbody>
+</table>
+<h3 id="odeconfig"><code>ODEConfig</code></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ode_name</code></td>
+<td><code>str</code></td>
+<td>Key in <code>ODE_REPOSITORY</code></td>
+</tr>
+<tr>
+<td><code>parameters</code></td>
+<td><code>dict</code></td>
+<td>ODE-specific parameters (e.g. <code>{"alpha": 1.0, "beta": 0.1}</code>)</td>
+</tr>
+<tr>
+<td><code>grid_size</code></td>
+<td><code>int</code></td>
+<td>Number of collocation points</td>
+</tr>
+<tr>
+<td><code>t_span</code></td>
+<td><code>tuple[float, float]</code></td>
+<td>Integration interval <span class="arithmatex">\([t_0, t_f]\)</span></td>
+</tr>
+<tr>
+<td><code>lambda_ode</code></td>
+<td><code>float</code></td>
+<td>Weight of the physics loss</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="output-directory-structure">Output directory structure</h2>
+<p>Each call to <code>run()</code> creates a timestamped experiment folder:</p>
+<pre><code>outputs/
+└── experiment_YYYY-MM-DD_HH-MM-SS/
+    ├── tensorboard_logs/       # SummaryWriter output
+    ├── save/                   # Top-k checkpoints (.pt)
+    ├── training_config.json
+    └── ode_experiment_config.json
+</code></pre>
+<p>Launch TensorBoard with:</p>
+<pre><code class="language-bash">tensorboard --logdir outputs/
+</code></pre>
+<hr />
+<h2 id="tensorboard-metrics">TensorBoard metrics</h2>
+<h3 id="training-scalars">Training scalars</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Training/loss/total</code></td>
+<td>Combined weighted loss</td>
+</tr>
+<tr>
+<td><code>Training/loss/physics</code></td>
+<td>ODE residual loss (when <code>lambda_ode &gt; 0</code>)</td>
+</tr>
+<tr>
+<td><code>Training/loss/data</code></td>
+<td>Data loss (when <code>lambda_data &gt; 0</code>)</td>
+</tr>
+<tr>
+<td><code>Training/residuals/&lt;var_name&gt;</code></td>
+<td>Mean absolute residual per state variable</td>
+</tr>
+<tr>
+<td><code>Training/residuals/mean</code></td>
+<td>Global mean residual across all points and variables</td>
+</tr>
+<tr>
+<td><code>Training/residuals/max</code></td>
+<td>Maximum absolute residual — flags poorly satisfied collocation points</td>
+</tr>
+<tr>
+<td><code>Training/gradients/global_norm</code></td>
+<td>Global L2 gradient norm — diagnoses vanishing/exploding gradients</td>
+</tr>
+</tbody>
+</table>
+<h3 id="evaluation-scalars">Evaluation scalars</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Evaluation/MSE</code></td>
+<td>Global MSE against the scipy reference solution</td>
+</tr>
+<tr>
+<td><code>Evaluation/MSE/&lt;var_name&gt;</code></td>
+<td>Per-variable MSE (e.g. <code>Evaluation/MSE/prey</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="evaluation-images">Evaluation images</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Evaluation/Observables/DynamicTrajectories</code></td>
+<td>Time-domain trajectories: predicted vs reference</td>
+</tr>
+<tr>
+<td><code>Evaluation/Observables/DynamicPhaseTrajectories</code></td>
+<td>Phase-space portrait at current epoch</td>
+</tr>
+<tr>
+<td><code>Evaluation/Observables/PhasePortraitOverlay</code></td>
+<td>Phase portrait overlay across epochs — visualises convergence toward the attractor</td>
+</tr>
+<tr>
+<td><code>Evaluation/Residuals/CollocationHeatmap</code></td>
+<td>Heatmap of <code>\|residual\|</code> on the collocation grid; one row per variable, time on x-axis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="example-lotka-volterra">Example: Lotka-Volterra</h2>
+<pre><code class="language-python">ode_config = ODEConfig(
+    ode_name=&quot;LotkaVolterra&quot;,
+    parameters={&quot;alpha&quot;: 1.0, &quot;beta&quot;: 0.1, &quot;delta&quot;: 0.075, &quot;gamma&quot;: 1.5},
+    grid_size=1000,
+    t_span=(0.0, 15.0),
+    lambda_ode=1.0,
+)
 
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = ".",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="js/base.js"></script>
+ode_experiment_config = ODEExperiment(
+    ode_config=ode_config,
+    data_config=None,
+    model_dimension=2,
+    initial_conditions=[10.0, 5.0],
+    input_cols=[&quot;t&quot;],
+    target_cols=[&quot;prey&quot;, &quot;predator&quot;],  # used as var_names in all TensorBoard tags
+)
+</code></pre>
+<p>Expected TensorBoard tags for this setup:</p>
+<ul>
+<li><code>Training/residuals/prey</code>, <code>Training/residuals/predator</code></li>
+<li><code>Evaluation/MSE/prey</code>, <code>Evaluation/MSE/predator</code></li>
+<li><code>Evaluation/Residuals/CollocationHeatmap</code> — two rows (prey / predator)</li>
+<li><code>Evaluation/Observables/PhasePortraitOverlay</code> — prey vs predator phase plane</li>
+</ul>
+<hr />
+<h2 id="adding-a-new-ode">Adding a new ODE</h2>
+<ol>
+<li>Implement a class inheriting from the base ODE interface:</li>
+</ol>
+<pre><code class="language-python">class MyODE:
+    def __init__(self, params: dict): ...
 
-        <div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    def torch_ode(self, y: torch.Tensor) -&gt; torch.Tensor:
+        &quot;&quot;&quot;Right-hand side F(y, t) — shape (N, n_vars).&quot;&quot;&quot;
+        ...
+
+    def simulate(self, t_span, x0, nb_points):
+        &quot;&quot;&quot;scipy reference solution.&quot;&quot;&quot;
+        ...
+
+    def log_trajectory_plot(self, t_true, y_true, y_pred) -&gt; np.ndarray | None:
+        &quot;&quot;&quot;Return a CHW uint8 array or None to skip logging.&quot;&quot;&quot;
+        ...
+
+    def log_trajectory_phase_space_plot(self, y_true, y_pred) -&gt; np.ndarray | None:
+        ...
+</code></pre>
+<ol>
+<li>Register it:</li>
+</ol>
+<pre><code class="language-python">ODE_REPOSITORY.register(&quot;MyODE&quot;, MyODE)
+</code></pre>
+<hr />
+<h2 id="known-issues-and-limitations">Known issues and limitations</h2>
+<ul>
+<li><code>var_names</code> must be set explicitly on the trainer instance (<code>trainer.var_names = ["prey", "predator"]</code>) or inferred from <code>target_cols</code> — no automatic wiring yet.</li>
+<li><code>_phase_overlay_history</code> grows unboundedly. Use <code>deque(maxlen=N)</code> for long runs:</li>
+</ul>
+<pre><code class="language-python">from collections import deque
+trainer._phase_overlay_history = deque(maxlen=20)
+</code></pre>
+<ul>
+<li><code>physics_loss_residual</code> uses <code>torch.autograd.grad</code> and must <strong>not</strong> be called inside <code>torch.no_grad()</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
             </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-    </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
 </div>
-
-    </body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": [], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
 </html>
-
-<!--
-MkDocs version : 1.6.1
-Build Date UTC : 2026-04-19 08:47:11.910883+00:00
--->
