@@ -1,9 +1,22 @@
 site_name: ODEPINNSFramework
 site_description: ODEPINNSFramework is a Python framework for simulating and solving Ordinary Differential Equations (ODEs) using Physics-Informed Neural Networks (PINNs). It combines data-driven learning with physical constraints, enabling models to learn solutions that respect underlying dynamical systems. The framework is designed to be modular, flexible, and suitable for both research and practical applications.
+site_url: https://frobinou.github.io/PINNSFramework/
+repo_url: https://github.com/Frobinou/PINNSFramework
+repo_name: Frobinou/PINNSFramework
+
+nav:
+  - Accueil: index.md
+  # Ajoutez vos pages ici
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
 
 theme:
   name: material          # pip install mkdocs-material
-  
+  language: en
+
 nav:
   - Home: index.md
   - Code: code.md
