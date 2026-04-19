@@ -17,8 +17,48 @@ dependencies = [
     "torchaudio>=2.4.0,<2.6.0",
     "fastparquet>=2026.3.0",
     "pyarrow>=23.0.1",
+    "mkdocs>=1.6.1",
+    "mkdocstrings[python]>=1.0.4",
+    "mkdocs-material>=9.7.0",
+    "mkdocs-macros-plugin>=1.5.0",
+    "pymdown-extensions>=10.21.2",
 ]
 
 [[tool.uv.index]]
 url = "https://download.pytorch.org/whl/cu121"
 name = "pytorch-cu121"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.11",
+]
+
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+# dossiers à ignorer
+exclude = [
+    ".venv",
+    "build",
+    "dist",
+    "runs",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort (imports)
+    "B",   # bugbear
+    "UP",  # pyupgrade
+]
+
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
