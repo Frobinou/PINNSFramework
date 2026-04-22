@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-         <loc>https://frobinou.github.io/PINNSFramework/</loc>
-         <lastmod>2026-04-22</lastmod>
+        <loc>https://frobinou.github.io/PINNSFramework/</loc>
+        <lastmod>2026-04-22</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://frobinou.github.io/PINNSFramework/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://frobinou.github.io/PINNSFramework/fr/"/>
     </url>
     <url>
-         <loc>https://frobinou.github.io/PINNSFramework/code/</loc>
-         <lastmod>2026-04-22</lastmod>
+        <loc>https://frobinou.github.io/PINNSFramework/code/</loc>
+        <lastmod>2026-04-22</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://frobinou.github.io/PINNSFramework/code/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://frobinou.github.io/PINNSFramework/fr/code/"/>
+    </url>
+    <url>
+        <loc>https://frobinou.github.io/PINNSFramework/fr/</loc>
+        <lastmod>2026-04-22</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://frobinou.github.io/PINNSFramework/fr/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://frobinou.github.io/PINNSFramework/"/>
+    </url>
+    <url>
+        <loc>https://frobinou.github.io/PINNSFramework/fr/code/</loc>
+        <lastmod>2026-04-22</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://frobinou.github.io/PINNSFramework/fr/code/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://frobinou.github.io/PINNSFramework/code/"/>
     </url>
 </urlset>
