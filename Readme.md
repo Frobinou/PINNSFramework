@@ -86,11 +86,7 @@ The framework trains a neural network to approximate the solution of an Ordinary
 ### Physics-Informed Learning
 
 Instead of relying solely on data, the model enforces the governing dynamics of the system:
-
-``  
-\[
-\frac{dy}{dt} = f(y, t)
-\]
+$$\frac{dy}{dt} = f(y, t)$$
 
 This is achieved using automatic differentiation to compute derivatives of the neural network output with respect to time.
 
@@ -104,17 +100,16 @@ The total optimization objective is defined as a weighted combination of two ter
 
 Ensures that the neural network respects the underlying differential equation:
 
-\[
-\mathcal{L}_{phys} = \left\| \frac{dy}{dt} - f(y, t) \right\|^2
-\]
+
+$$\mathcal{L}_{phys} = \left\| \frac{dy}{dt} - f(y, t) \right\|^2$$
 
 #### 2. Data Loss (optional)
 
 Used when observations are available:
 
-\[
-\mathcal{L}_{data} = \| y_{pred} - y_{true} \|^2
-\]
+
+$$\mathcal{L}_{data} = \| y_{pred} - y_{true} \|^2$$
+
 
 ---
 
@@ -122,15 +117,13 @@ Used when observations are available:
 
 The final loss function is:
 
-\[
-\mathcal{L} = \lambda_{phys} \mathcal{L}_{phys} + \lambda_{data} \mathcal{L}_{data}
-\]
 
-Loss = λ_phys * L_phys + λ_data * L_data
+$$\mathcal{L} = \lambda_{phys} \mathcal{L}_{phys} + \lambda_{data} \mathcal{L}_{data}$$
+
 
 where:
-- \( \lambda_{phys} \) controls the weight of physical constraints
-- \( \lambda_{data} \) controls the influence of observed data
+-  $\lambda_{phys}$ controls the weight of physical constraints
+- $\lambda_{data}$ controls the influence of observed data
 
 ---
 
@@ -151,6 +144,7 @@ This approach allows the model to learn **physically consistent trajectories** e
 - partially observed systems
 
 📁 Project Structure
+```bash
 PINNSFramework/
 │
 ├── src/
@@ -169,15 +163,19 @@ PINNSFramework/
 ├── docs/
 ├── mkdocs.yml
 └── pyproject.toml
-🧪 Training
-python src/run.py
 
+```
+
+🧪 Training
+```bash
+python src/run_train.py
+```
 Outputs include:
 
-checkpoints
-TensorBoard logs
-evaluation plots
-experiment configs
+- checkpoints
+- TensorBoard logs
+- evaluation plots
+- experiment configs
 
 ## 🧾 Command Line Interface (CLI)
 
