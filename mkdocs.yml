@@ -16,6 +16,22 @@ plugins:
 theme:
   name: material          # pip install mkdocs-material
   language: en
+  font:
+    text: Raleway        # police du corps
+    code: Source Code Pro  # police du code
+  palette:
+    - scheme: default
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Passer en mode sombre
+    - scheme: slate
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Passer en mode clair
 
 nav:
   - Home: index.md
@@ -29,6 +45,25 @@ plugins:
           options:
             docstring_style: google
             show_source: true
+  - search
+  - i18n:
+      default_language: en
+      languages:
+        - locale: fr
+          name: Français
+          build: true
+        - locale: en
+          name: English
+          build: true
+          default: true
+extra:
+  alternate:
+    - name: Français
+      link: /fr/
+      lang: fr
+    - name: English
+      link: /
+      lang: en
 
 markdown_extensions:
   - pymdownx.arithmatex:
