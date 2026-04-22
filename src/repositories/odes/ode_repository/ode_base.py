@@ -8,7 +8,7 @@ import numpy as np
 
 class BaseODE:
     def __init__(self, params: BaseModel):
-        self.name = "Lotka Volterra"
+        self.name = "a base ODE name"
         self.params: BaseModel = params
 
     def update_params(self, new_params: BaseModel):

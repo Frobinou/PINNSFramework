@@ -1,76 +1,72 @@
+# ── checkpoint_manager.py ─────────────────────────────────────────────────────
+
 import json
-from pydantic.v1 import BaseModel
+import logging
 import torch
 from pathlib import Path
-from typing import List, Tuple
 
-from src.data_models import ODEExperiment, TrainingConfig
+from src.core.schemas import ExperimentConfig
 
 
 class CheckpointManager:
-    def __init__(self, save_dir: Path, top_k: int, logger):
+    """Handles top-k checkpoint saving, loading, and config serialisation."""
+
+    def __init__(self, save_dir: Path, top_k: int, logger: logging.Logger):
         self.save_dir = save_dir
         self.top_k = top_k
         self.logger = logger
-        self.best_checkpoints: List[Tuple[float, Path]] = []
+        self.best_checkpoints: list[tuple[float, Path]] = []
 
-    def save_top_k_checkpoint(self, epoch: int, loss: float, model, optimizer, global_step: int):
-        checkpoint_path = self.save_dir / f"epoch_{epoch}_loss_{loss:.6f}.pt"
+        self.save_dir.mkdir(parents=True, exist_ok=True)
 
-        # Sauvegarde
+    def save_top_k_checkpoint(
+        self,
+        epoch: int,
+        loss: float,
+        model: torch.nn.Module,
+        optimizer: torch.optim.Optimizer,
+        global_step: int,
+    ) -> None:
+        path = self.save_dir / f"epoch_{epoch}_loss_{loss:.6f}.pt"
+
         torch.save(
             {
-                "epoch": epoch,
-                "model_state_dict": model.state_dict(),
+                "epoch":                epoch,
+                "model_state_dict":     model.state_dict(),
                 "optimizer_state_dict": optimizer.state_dict(),
-                "loss": loss,
-                "global_step": global_step,
+                "loss":                 loss,
+                "global_step":          global_step,
             },
-            checkpoint_path,
+            path,
         )
 
-        # Ajout à la liste
-        self.best_checkpoints.append((loss, checkpoint_path))
-
-        # Tri par loss croissante
+        self.best_checkpoints.append((loss, path))
         self.best_checkpoints.sort(key=lambda x: x[0])
 
-        # Si on dépasse top_k → supprimer le pire
         if len(self.best_checkpoints) > self.top_k:
-            worst_loss, worst_path = self.best_checkpoints.pop(-1)
-
+            _, worst_path = self.best_checkpoints.pop(-1)
             if worst_path.exists():
                 worst_path.unlink()
                 self.logger.info(f"Removed worst checkpoint: {worst_path}")
 
-        self.logger.info(f"Saved checkpoint (top-{self.top_k}): {checkpoint_path}")
+        self.logger.info(f"Saved checkpoint (top-{self.top_k}): {path}")
 
-    def load_checkpoint(self, path: Path, model, optimizer):
+    def load_checkpoint(
+        self,
+        path: Path,
+        model: torch.nn.Module,
+        optimizer: torch.optim.Optimizer,
+    ) -> int:
+        """Restore model & optimizer weights. Returns global_step."""
         checkpoint = torch.load(path)
-
         model.load_state_dict(checkpoint["model_state_dict"])
         optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
         global_step = checkpoint.get("global_step", 0)
-
         self.logger.info(f"Loaded checkpoint from {path} (epoch {checkpoint['epoch']})")
-
         return global_step
 
-    def save_config(
-        self,
-        experiment_folder: Path,
-        ode_experiment_config: ODEExperiment,
-        training_config: TrainingConfig,
-    ):
-
-        config = {
-            "parameters_training": training_config.model_dump(mode="json"),
-            "ode_experiment_config": ode_experiment_config.model_dump(mode="json"),
-        }
-
-        config_path = experiment_folder / "training_config.json"
-
-        with open(config_path, "w") as f:
-            json.dump(config, f, indent=4)
-
-        self.logger.info(f"Config saved: {config_path}")
+    def save_config(self, experiment: ExperimentConfig) -> None:
+        """Serialise the full experiment config to save_dir/config.json."""
+        path = self.save_dir / "config.json"
+        path.write_text(experiment.model_dump_json(indent=4))
+        self.logger.info(f"Config saved: {path}")

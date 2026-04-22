@@ -1,8 +1,8 @@
-import torch
 import torch.nn as nn
-from src.data_models import AvailablesAIModel
+from src.repositories.models import AvailablesAIModel
+from src.core.registry import REGISTRY  
 
-
+@REGISTRY.models.register(AvailablesAIModel.BASIC_PINN)
 class BasicPINN(nn.Module):
     def __init__(self, input_dim=1, hidden_dim=20, output_dim=1):
         self.name = AvailablesAIModel.BASIC_PINN

@@ -7,7 +7,7 @@ sys.path.append(cwd)
 from pathlib import Path
 from matplotlib import pyplot as plt
 import numpy as np
-from src.odes.data_generator.ode_data_generator import ODEDataGenerator
+from src.repositories.odes.data_generator.ode_data_generator import ODEDataGenerator
 
 
 def sample_params():
@@ -29,7 +29,7 @@ def sample_x0():
 
 
 if __name__ == "__main__":
-    from src.odes.ode_repository.ode_lotka_voltera import LotkaVoltera, ParamsLotkaVoltera
+    from src.repositories.odes.ode_repository.ode_lotka_voltera import LotkaVoltera, ParamsLotkaVoltera
 
     # Instantiate model
     params = ParamsLotkaVoltera(alpha=0.67, beta=1.3, delta=1.0, gamma=1.0)

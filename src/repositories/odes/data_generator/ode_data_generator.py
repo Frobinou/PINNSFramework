@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from src.odes.ode_repository.ode_base import BaseODE
+from src.repositories.odes.ode_repository.ode_base import BaseODE
 from pathlib import Path
 
 

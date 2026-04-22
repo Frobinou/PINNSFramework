@@ -9,7 +9,7 @@ import torch
 import matplotlib.pyplot as plt
 
 from pydantic import BaseModel
-from src.data_models import (
+from src.core.schemas import (
     ODEExperiment,
     ODESConfig,
     AvailablesODE,
@@ -17,7 +17,7 @@ from src.data_models import (
     TrainingConfig,
 )
 from src.core.trainer_runner import ODE_REPOSITORY, AIMODEL_REPOSITORY
-from src.odes.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
+from src.repositories.odes.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
 
 
 class InferenceRunner:
