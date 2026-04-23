@@ -17,9 +17,7 @@ dependencies = [
     "torchaudio>=2.4.0,<2.6.0",
     "fastparquet>=2026.3.0",
     "pyarrow>=23.0.1",
-    "pymdown-extensions>=10.21.2",
-    "mkdocs-material>=9.7.0",
-    "mkdocs-static-i18n>=1.3.1",
+    "pymdown-extensions>=10.21.2"
 ]
 
 [[tool.uv.index]]
@@ -35,6 +33,8 @@ docs = [
     "mkdocstrings[python]>=1.0.4",
     "mkdocs-material>=9.7.0",
     "mkdocs-macros-plugin>=1.5.0",
+    "mkdocs-material>=9.7.0",
+    "mkdocs-static-i18n>=1.3.1",
 ]
 
 [tool.ruff]

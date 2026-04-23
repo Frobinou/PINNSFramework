@@ -46,17 +46,27 @@ This separation ensures full extensibility for research experimentation.
 pip install -e .
 ```
 
-🚀 Quickstart
+## 🚀 Quickstart
 
-```python
-from core.trainer import Trainer
+### 🧪 Training
+```bash
+python src/run_train.py
+```
+Outputs include:
 
-trainer = Trainer(
-    training_config=...,
-    ode_experiment_config=...
-)
+- checkpoints
+- TensorBoard logs
+- evaluation plots
+- experiment configs
 
-trainer.run()
+### 🧪 Inference
+```bash
+python src/run_inference.py
+```
+
+### 🧪 Generate dataset
+```bash
+python src/run_generate.py
 ```
 
 📚 Documentation
@@ -143,39 +153,6 @@ This approach allows the model to learn **physically consistent trajectories** e
 - noisy observations
 - partially observed systems
 
-📁 Project Structure
-```bash
-PINNSFramework/
-│
-├── src/
-│   ├── core/
-│   ├── odes/
-│   ├── ode_repository/
-│   ├── model_repository/
-│   ├── visualizers/
-│   ├── data_models.py
-│   ├── trainer_runner.py
-│   ├── inference_runner.py
-│   ├── run.py
-│   └── logger.py
-│
-├── runs/
-├── docs/
-├── mkdocs.yml
-└── pyproject.toml
-
-```
-
-🧪 Training
-```bash
-python src/run_train.py
-```
-Outputs include:
-
-- checkpoints
-- TensorBoard logs
-- evaluation plots
-- experiment configs
 
 ## 🧾 Command Line Interface (CLI)
 
@@ -193,25 +170,17 @@ Start a training run using a predefined ODE configuration:
 python src/cli/app.py train --ode lotka_volterra
 ```
 
-🧩 Supported Systems
+## 🧩 Supported Systems
 Lotka–Volterra dynamics
 CFAST model
 Custom ODE systems
 
-🔭 Roadmap
- Uncertainty quantification
- JAX backend support
- Distributed training
- Benchmark suite for PINNs
 
 
-📌 Design Philosophy
-Modularity → every component is replaceable
-Reproducibility → full experiment tracking
-Physics consistency → constraints enforced by design
+## 📚 Documentation
+Full documentation is available at [PINNSFramework](https://frobinou.github.io/PINNSFramework/).
 
-
-📄 License
+## 📄 License
 
 MIT License
 
