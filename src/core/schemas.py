@@ -68,6 +68,6 @@ class ExperimentConfig(BaseModel):
     """Single object to dump / reload a full experiment."""
     ode:      ODESConfig
     data:     DataConfig
-    model:    AvailablesAIModel
     physics_weights:  PhysicsWeights = PhysicsWeights()
     training: TrainingConfig  = TrainingConfig()
+    device: str

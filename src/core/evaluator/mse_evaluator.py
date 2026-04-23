@@ -15,8 +15,8 @@ class MSEEvaluator(Evaluator):
         n = 0
 
         with torch.no_grad():
-            for batch in self.dataloader:
-
+            for batch in self.dataloader.val_loader:
+                batch = {k: v.to(trainer.device) for k, v in batch.items()}
                 x = batch["x"]
                 y_true = batch["y"]
 

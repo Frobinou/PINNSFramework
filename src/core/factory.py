@@ -1,6 +1,6 @@
 import torch
 from typing import Literal
-
+from pathlib import Path
 
 from src.core.registry import REGISTRY
 from src.core.schemas import DataConfig
@@ -10,6 +10,7 @@ from src.core.schemas import (
     TrainingConfig,
     PhysicsWeights
 )
+from src.core.experiment_io import load_experiment
 
 def build_trainer(
     ode_config: ODESConfig,
@@ -77,6 +78,7 @@ def build_trainer(
         optimizer=optimizer,
         loss_fn=loss,
         device=device,
+        t=torch.linspace(ode_config.t_span[0], ode_config.t_span[1], ode_config.grid_size)
     )
 
 
@@ -126,3 +128,82 @@ def make_dataloader(config: DataConfig):
         target_cols=config.target_cols,
         batch_size=config.batch_size,
     )
+
+def run_inference(
+    trainer: Trainer,
+    ode_config: ODESConfig,
+    device: Literal['cpu', 'cuda'] = "cpu",
+) -> torch.Tensor:
+    """Run inference over the full t_span defined in ode_config.
+
+    Sets the model to evaluation mode and disables gradient computation
+    for efficiency.
+
+    Args:
+        trainer: Trained trainer instance with model attached.
+        ode_config: ODE configuration exposing ``t_span`` and ``grid_size``.
+        device: Target device (``"cpu"`` or ``"cuda"``). Defaults to ``"cpu"``.
+
+    Returns:
+        Tensor of shape ``(grid_size, output_dim)`` with model predictions.
+
+    Example:
+```python
+        y_pred = run_inference(trainer, ode_config, device="cuda")
+```
+    """
+    t = torch.linspace(
+        ode_config.t_span[0],
+        ode_config.t_span[1],
+        ode_config.grid_size
+    ).unsqueeze(1).to(device)
+
+    trainer.model.eval()
+    with torch.no_grad():
+        y_pred = trainer.model(t)
+
+    return y_pred
+
+
+def run_inference_from_config(
+    experiment_path: str | Path,
+    checkpoint_path: str | Path,
+    device: Literal['cpu', 'cuda'] = "cpu",
+) -> torch.Tensor:
+    """Rebuild a trainer from a saved experiment and run inference.
+
+    Loads the experiment configuration from a JSON file, reconstructs
+    the trainer, loads the model weights from a checkpoint, and runs
+    inference over the full t_span.
+
+    Args:
+        experiment_path: Path to the experiment JSON file produced by
+            :func:`~src.core.experiment_io.save_experiment`.
+        checkpoint_path: Path to the model weights file (``.pt``) produced
+            by the checkpoint callback.
+        device: Target device (``"cpu"`` or ``"cuda"``). Defaults to ``"cpu"``.
+
+    Returns:
+        Tensor of shape ``(grid_size, output_dim)`` with model predictions.
+
+    Example:
+```python
+        y_pred = run_inference_from_config(
+            experiment_path="experiments/experiment_20260423_143512.json",
+            checkpoint_path="checkpoints/best_model.pt",
+            device="cuda",
+        )
+```
+    """
+    config = load_experiment(experiment_path)
+
+    trainer = build_trainer(
+        ode_config=config.ode,
+        loss_config=config.physics_weights,
+        training_config=config.training,
+        device=device,
+    )
+    checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
+    trainer.model.load_state_dict(checkpoint["model_state_dict"])
+
+    return run_inference(trainer, config.ode, device)

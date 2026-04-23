@@ -1,7 +1,6 @@
 from src.core.callback.base_callback import Callback
 from src.core.checkpoint_manager import CheckpointManager
 
-
 class CheckpointCallback(Callback):
     """Saves top-k checkpoints at the end of each epoch."""
 
@@ -14,11 +13,11 @@ class CheckpointCallback(Callback):
             loss=trainer.last_loss,
             model=trainer.model,
             optimizer=trainer.optimizer,
-            global_step=trainer.epoch,
+            global_step=trainer.epoch_step,
         )
 
     def on_train_end(self, trainer):
-        self.writer.close()
+        pass
 
     def on_batch_end(self, trainer, loss):
         return super().on_batch_end(trainer, loss)

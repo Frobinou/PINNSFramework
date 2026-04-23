@@ -66,11 +66,13 @@ class GlobalRegistry:
         self.models = Registry("models")
         self.losses = Registry("losses")
         self.data_loaders = Registry("data_loaders")
+        self.callbacks = Registry("callbacks")
+        self.evaluators = Registry("evaluators")
 
     def __repr__(self) -> str:
         sections = "\n".join(
             f"  {r}: {getattr(self, r).list()}"
-            for r in ("odes", "models", "losses", "data_loaders")
+            for r in ("odes", "models", "losses", "data_loaders", "callbacks", "evaluators")
         )
         return f"GlobalRegistry:\n{sections}"
 

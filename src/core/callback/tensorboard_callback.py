@@ -3,7 +3,6 @@ from torch.utils.tensorboard import SummaryWriter
 
 from src.core.callback.base_callback import Callback
 
-
 class TensorBoardCallback(Callback):
     def __init__(
         self,
