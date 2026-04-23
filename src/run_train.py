@@ -13,18 +13,20 @@ from src.core.schemas import (
     AvailablesODE,
     AvailablesAIModel,
     ODESConfig,
-    PhysicsWeights
+    PhysicsWeights,
+    ExperimentConfig
 )
 from src.repositories.odes.ode_repository.ode_lotka_voltera import ParamsLotkaVoltera
 from src.core.callback.tensorboard_callback import TensorBoardCallback
 from src.core.callback.checkpoint_callback import CheckpointCallback
 from src.core.callback.earlystopping_callback import EarlyStoppingCallback
+from src.core.callback.finalevaluation_callback import FinalEvaluationCallback
 from src.core.evaluator.mse_evaluator import MSEEvaluator
 from src.core.evaluator.ode_evaluator import ODEEvaluator
 from src.core.factory import make_dataloader, build_trainer
 from src.repositories.losses import AvailablesLoss
 from src.logger import setup_logger
-
+from src.core.experiment_io import save_experiment
 logger = setup_logger()
 
 # ── Force registration ────────────────────────────────────────────────────────
@@ -65,7 +67,7 @@ data_config = DataConfig(
 # ── Training configuration ────────────────────────────────────────────────────
 training_config = TrainingConfig(
     l_r=1e-3,
-    epochs=2000,
+    epochs=20,
     top_k_save_frequency=5,
     log_frequency=50,
     model_name=AvailablesAIModel.BASIC_PINN,
@@ -87,16 +89,21 @@ trainer = build_trainer(
     device=device
 )   
 
+experiment_path = save_experiment(ExperimentConfig(ode=ode_config,
+                                 data=data_config,
+                                 physics_weights=physics_weights,
+                                 training=training_config,
+                                 device=device),base_dir=output_folder_path)
 
 # ── Callbacks ─────────────────────────────────────────────────────────────────
 from src.core.checkpoint_manager import CheckpointManager
 checkpoint_manager = CheckpointManager(
-    save_dir=output_folder_path,
+    save_dir= experiment_path / 'save',
     top_k=training_config.checkpoint_k,
     logger=logger)
 
 trainer.callbacks.extend([
-    TensorBoardCallback(log_dir=str(output_folder_path)),
+    TensorBoardCallback(log_dir= experiment_path / 'tensorboard_logs'),
     CheckpointCallback(manager=checkpoint_manager),
     EarlyStoppingCallback(patience=10),
 ])
