@@ -7,11 +7,11 @@ sys.path.append(cwd)
 from pathlib import Path
 import numpy as np
 from typing import Any
-from src.odes.data_generator.ode_data_generator import ODEDataGenerator
+from src.repositories.odes.data_generator.ode_data_generator import ODEDataGenerator
 
 
 if __name__ == "__main__":
-    from src.odes.ode_repository.ode_cfast import ODECFAST, ParamsCFAST
+    from src.repositories.odes.ode_repository.ode_cfast import ODECFAST, ParamsCFAST
 
     # Instantiate model
     params = ParamsCFAST(total_volume=1000.0)
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         target_cols=["p", "T_u", "T_l", "V_u"],
         input_cols=["t", "gamma", "total_volume", "cp"],
         t_span=(0, 10),
-        n_steps=500,
+        n_steps=1000,
     )
 
     # Generate dataset
