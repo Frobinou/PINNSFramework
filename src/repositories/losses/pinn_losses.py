@@ -97,7 +97,7 @@ class PINNLoss:
         total = torch.tensor(0.0)
         physics_loss = None
         data_loss = None
-
+        t = t.unsqueeze(1).requires_grad_(True)
         if self.lambda_ode > 0 and self.ode is not None:
             physics_loss = self._physics_loss(model, t)
             total = total + self.lambda_ode * physics_loss
